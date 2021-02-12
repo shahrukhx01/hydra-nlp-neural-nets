@@ -1,6 +1,6 @@
 '''
 Text Preprocessor Unit Test
-Author: Shahrukh Khan (shahrukh.khan3@ibm.com)
+Author: Shahrukh Khan
 '''
 import unittest
 import pandas as pd

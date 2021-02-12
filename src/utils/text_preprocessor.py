@@ -1,6 +1,6 @@
 '''
 Text Preprocessor
-Author: Shahrukh Khan (shahrukh.khan3@ibm.com)
+Author: Shahrukh Khan
 '''
 import os
 import logging

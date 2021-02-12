@@ -1,7 +1,7 @@
 #!/usr/bin/python
 '''
 Extended Label Encoder
-Author: Shahrukh Khan (shahrukh.khan3@ibm.com)
+Author: Shahrukh Khan
 '''
 import numpy as np
 from sklearn.preprocessing import LabelEncoder

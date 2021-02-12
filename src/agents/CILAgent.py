@@ -1,6 +1,6 @@
 '''
 Change Incident Linkage
-Author: Shahrukh Khan (shahrukh.khan3@ibm.com)
+Author: Shahrukh Khan
 '''
 from __future__ import print_function
 from agents.base import BaseAgent
