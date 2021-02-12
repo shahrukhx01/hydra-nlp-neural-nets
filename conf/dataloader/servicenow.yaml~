@@ -1,0 +1,6 @@
+dataloader:
+    data_dir: ~/daily_snapshots/2020-04-06.csv
+    batch_size: 128
+    label_column: target
+    na_value: -1
+    ignore_errors: true

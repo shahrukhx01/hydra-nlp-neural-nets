@@ -1,0 +1,23 @@
+agent:
+    name: ADAgent
+
+    trainer:
+        enable: true
+
+        epoch: 10
+        batch_size: 256
+        shuffle: true
+        val_split: 0.2
+
+        loss: binary_crossentropy
+        optimizer: adadelta
+
+        checkpoint_file: checkpoint_pth.tar
+
+    test:
+        enable: false
+
+    predict:
+        enable: false
+        run_id: b76b5dddc1c64cbaaf4dea8099812396
+        output: /home/cloud_user/daily_predictions/2020-04-07.csv

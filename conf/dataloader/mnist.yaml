@@ -1,0 +1,12 @@
+dataloader:
+    name: MNISTDataLoader
+
+    data_mode: download
+    data_folder:
+
+    data_loader_workers: 2
+    pin_memory: true
+    async_loading: true
+
+    batch_size: 128
+    test_batch_size: 1000

@@ -1,0 +1,27 @@
+dataloader:
+    data_dir: 
+        inc_path: /Users/shahrukh/Documents/CH_INC/data/ameriprise_data/incidents_gt_48h.csv
+        chg_path: /Users/shahrukh/Documents/CH_INC/data/ameriprise_data/changes_processed.csv
+    data_config:
+        incident:
+            - column: text
+              flag: 0 # flag `0` means in preprocess sentence only
+            - column: open_dttm
+              flag: 2 # flag `2` means in preprocess convert to pandas datatime column
+            - column: text
+              flag: 3 # flag `3` means in preprocess preprocess sentence take out non-alphabetic tokens
+        change:
+            - column: text
+              flag: 0 # flag `0` means in preprocess sentence only
+            - column: request_dttm
+              flag: 2 # flag `2` means in preprocess convert to pandas datatime column
+            - column: text
+              flag: 3 # flag `3` means in preprocess preprocess sentence take out non-alphabetic tokens
+    na_value: ''
+    incident_id: incident_id
+    change_id: change_id
+    ignore_errors: true
+    output_dir: /Users/shahrukh/Desktop/ameriprise_change_incident_out/
+    data_loader_type: snow
+    elasticsearch_host: localhost:9200
+    eleasticsearch_index: 1593999116

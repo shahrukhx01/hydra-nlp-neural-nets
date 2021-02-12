@@ -1,0 +1,4 @@
+logger:
+    name: mlflow
+    output_dir: /Users/shahrukh/Desktop/endpoint_ad/outputs/
+    temp_dir: .temp/

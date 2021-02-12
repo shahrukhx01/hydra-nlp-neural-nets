@@ -1,0 +1,6 @@
+hydra:
+    run:
+        dir: .temp/
+    sweep:
+        dir: .temp/
+        subdir: ${hydra.job.num}

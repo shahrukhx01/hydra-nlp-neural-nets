@@ -1,0 +1,23 @@
+agent:
+    name: CILAgent
+
+    trainer:
+        enable: false
+
+        epoch: 10
+        batch_size: 256
+        shuffle: true
+        val_split: 0.2
+
+        loss: binary_crossentropy
+        optimizer: adadelta
+
+        checkpoint_file: checkpoint_pth.tar
+
+    test:
+        enable: false
+
+    predict:
+        enable: false
+        run_id: b76b5dddc1c64cbaaf4dea8099812396
+        output: /Users/shahrukh/Desktop/endpoint_ad/data/output.csv

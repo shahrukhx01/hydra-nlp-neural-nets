@@ -1,0 +1,4 @@
+model:
+    name: epad
+    
+    emb_dim: 125

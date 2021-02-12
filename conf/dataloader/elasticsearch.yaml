@@ -1,0 +1,42 @@
+dataloader:
+    data_dir: 
+        inc_path: incidents
+        chg_path: changes
+        inc_processed_path: incidents_processed
+        chg_processed_path: changes_processed
+    data_config:
+        incident:
+            - column: incident_abstract
+              flag: 0 # flag `0` means in preprocess sentence only
+            - column: incident_description
+              flag: 0
+            - column: incident_abstract
+              flag: 1 # flag `1` means in preprocess tokenize and cleanse
+            - column: incident_description
+              flag: 1
+            - column: open_dttm
+              flag: 2 # flag `2` means in preprocess convert to pandas datatime column
+        change:
+            - column: change_abstract
+              flag: 0 # flag `0` means in preprocess sentence only
+            - column: change_description
+              flag: 0
+            - column: change_abstract
+              flag: 1 # flag `1` means in preprocess tokenize and cleanse
+            - column: change_description
+              flag: 1
+            - column: act_start_dttm
+              flag: 2 # flag `2` means in preprocess convert to pandas datatime column
+    na_value: ''
+    ignore_errors: true
+    batch_range_dt:
+      batch_start_dt: 2019-01-08T15:29:50+00:00
+      batch_end_dt: 2019-04-15T15:29:50+00:00
+      inc_dt_column: open_dttm
+      chg_dt_column: act_start_dttm
+    output_index: change_incident_out1
+    elasticsearch_host: localhost
+    incident_id: incident_id
+    change_id: change_id
+    batch_size: 1.0
+    data_loader_type: elasticsearch

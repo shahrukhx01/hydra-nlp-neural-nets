@@ -1,0 +1,25 @@
+# Pipeline Hyperparameters
+exp_name: 'MLFlow Test'
+mode: 'train'
+
+seed: 9892
+
+defaults:
+    # Hydra Configuration
+    - hydra/hydra_logging : default   # Hydra's logging config
+    - hydra/job_logging : default     # Job's logging config
+    - hydra/launcher: basic           # Launcher config
+    - hydra/sweeper: basic            # Sweeper config (Not Supported)
+    - hydra/output: butane            # Output directory
+    - hydra/help: default             # --help template
+    - hydra/hydra_help: default       # --hydra-help template
+
+    # Butane Runtime Configuration
+    - agent: base
+    - logger: mlflow
+    - dataloader: servicenow
+    - core/temporal_filtering: time_window
+    - core/domain_ner: pattern_ner
+    - core/explicit_linkage: explicit_id_linkage
+    - core/text_similarity: text_similarity_fuzzy
+    - model: epad

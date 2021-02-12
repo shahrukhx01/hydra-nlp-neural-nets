@@ -1,0 +1,5 @@
+model:
+    name: epad
+    
+    input_dim: [10]
+    emb_dim: 5

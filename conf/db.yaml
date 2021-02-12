@@ -1,0 +1,6 @@
+db:
+    database: DHWW
+    hostname: sbybz220098.sby.dst.ibm.com
+    port: 50000
+    user: dhww
+    pwd: Dhww@1234

@@ -1,0 +1,14 @@
+agent:
+    name: ADAgent
+
+    trainer:
+        enable: true
+        
+        epoch: 100
+        loss: binary_crossentropy
+        optimizer: adadelta
+        
+        checkpoint_file: checkpoint_pth.tar
+
+    test:
+        enable: false
