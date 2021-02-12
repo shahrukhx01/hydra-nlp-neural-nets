@@ -1,5 +1,5 @@
 ## Introduction:
-A [http://hydra.cc/](hydra) based Natural Language Processing (NLP) pipeline boilerplate with loggers embbeded, allowing for streamlining deep learning models and accomodating experimentation while also being able to write modular scalable code. The best feature is that the code is completely parametrized via config file, which minimizes code changes when data changes etc.
+A (http://hydra.cc/)[hydra] based Natural Language Processing (NLP) pipeline boilerplate with loggers embbeded, allowing for streamlining deep learning models and accomodating experimentation while also being able to write modular scalable code. The best feature is that the code is completely parametrized via config file, which minimizes code changes when data changes etc.
 
 ### Features Implemented till now:
 - DataLoaders:
