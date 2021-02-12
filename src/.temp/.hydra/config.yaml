@@ -1,0 +1,93 @@
+agent:
+  name: CILAgent
+  predict:
+    enable: false
+    output: /Users/shahrukh/Desktop/endpoint_ad/data/output.csv
+    run_id: b76b5dddc1c64cbaaf4dea8099812396
+  test:
+    enable: false
+  trainer:
+    batch_size: 256
+    checkpoint_file: checkpoint_pth.tar
+    enable: false
+    epoch: 10
+    loss: binary_crossentropy
+    optimizer: adadelta
+    shuffle: true
+    val_split: 0.2
+dataloader:
+  batch_range_dt:
+    batch_end_dt: '2019-04-15T15:29:50+00:00'
+    batch_start_dt: '2019-01-08T15:29:50+00:00'
+    chg_dt_column: act_start_dttm
+    inc_dt_column: open_dttm
+  batch_size: 1.0
+  change_id: change_id
+  data_config:
+    change:
+    - column: change_abstract
+      flag: 0
+    - column: change_description
+      flag: 0
+    - column: change_abstract
+      flag: 1
+    - column: change_description
+      flag: 1
+    - column: act_start_dttm
+      flag: 2
+    incident:
+    - column: incident_abstract
+      flag: 0
+    - column: incident_description
+      flag: 0
+    - column: incident_abstract
+      flag: 1
+    - column: incident_description
+      flag: 1
+    - column: open_dttm
+      flag: 2
+  data_dir:
+    chg_path: changes
+    chg_processed_path: changes_processed
+    inc_path: incidents
+    inc_processed_path: incidents_processed
+  data_loader_type: elasticsearch
+  elasticsearch_host: localhost
+  ignore_errors: true
+  incident_id: incident_id
+  na_value: ''
+  output_index: change_incident_out1
+exp_name: MLFlow Test
+explicit_id_linkage:
+  change_id_field: change_id
+  incident_id_field: incident_id
+  incident_text_field: incident_description
+logger:
+  name: mlflow
+  output_dir: /Users/shahrukh/Desktop/endpoint_ad/outputs/
+  temp_dir: .temp/
+mode: train
+model:
+  emb_dim: 125
+  name: epad
+pattern_ner:
+  chg_fields:
+  - change_description_processed
+  entity_col_suffix: _dm_ner
+  false_entities:
+  - '-'
+  inc_fields:
+  - incident_description_processed
+  model_path: /Users/shahrukh/Desktop/change-incident-linkage-master/pipeline/outputs/domain_ner_model
+  true_pattern: '[a-zA-Z]+[0-9][a-zA-Z0-9]*'
+seed: 9892
+temporal_filtering:
+  change_text: change_description
+  chg_entity_col: change_description_processed_dm_ner
+  inc_entity_col: incident_description_processed_dm_ner
+  inc_window_start_col: start_window_dttm
+  incident_text: incident_description
+  window_size: 2
+text_similarity_fuzzy:
+  change_field: change_description_processed
+  incident_field: incident_description_processed

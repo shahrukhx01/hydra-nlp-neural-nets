@@ -1,0 +1,112 @@
+'''
+ServiceNow Data Loader
+Author: Shahrukh Khan(shahrukh.khan3@ibm.com)
+'''
+from __future__ import print_function
+import os
+import pickle
+import logging
+import modin.pandas as pd
+import category_encoders as ce
+
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler
+
+from graphs.utils.label_encoder import LabelEncoderExt
+
+
+class SNDataLoader:
+    def __init__(self, config, logger):
+        logging.info('Initialize ServiceNow DHWW (SNDataLoader)')
+
+        # Initialize Configuration File & Dataloader
+        self.config = config
+        self.logger = logger
+
+        # Initialize Dataloader Parameters
+        self.data_dir = config.dataloader.data_dir
+        self.batch_size = config.dataloader.batch_size
+        self.label_column = config.dataloader.label_column
+        self.na_value = config.dataloader.na_value
+        self.ignore_errors = config.dataloader.ignore_errors
+        
+        # Load Dataframe
+        logging.info('Loading Dataset: ' + self.data_dir)
+        self.data = pd.read_csv(self.data_dir)
+
+        # Preprocess Data
+        logging.info('Performing data preprocessing pipeline')
+        self.preprocess_data()
+    
+    def preprocess_data(self):
+        # Persist MMS_DEVICE_ID & SNAPSHOT_TIME + Drop Features
+        logging.info('Drop MMS_DEVICE_ID and SNAPSHOT_TIME')
+        self.mms_id = self.data['MMS_DEVICE_ID']
+        self.snap_time = self.data['SNAPSHOT_TIME']
+        self.data = self.data.drop(['MMS_DEVICE_ID', 'SNAPSHOT_TIME'], axis=1)
+        
+        # Fill In Missing Values
+        logging.info('Imputing missing values with: ' + str(self.na_value))
+        self.data = self.data.fillna(self.na_value)
+        
+        # Data Transformation Functions
+        if self.config.agent.trainer.enable:
+            logging.info('Training Mode - Initializing new data preprocessing routine objects')
+            
+            ## Define Transformation Objects
+            # Categorical Encoders
+            encoder = ce.OneHotEncoder([
+                'SYSTEM_NAME', 
+                'COMPLIANCE_STATE_KEY',
+                'MANAGEMENT_STATE_KEY',
+                'DEVICE_TYPE',
+                'DEVICE_OS',
+                'MANUFACTURER',
+                'STATUS',
+                'OS_VERSION'],
+                return_df = True)
+            
+            # Data Normalization
+            scaler = MinMaxScaler()
+
+            ## Perform Encoder Fit Routines
+            logging.info('Preprocessing: One-Hot Encoding')
+            encoder.fit(self.data)            
+            self.data = encoder.transform(self.data)
+            self.encoder_name = list(self.data.columns) # Preserve Column Names
+
+            logging.info('Preprocessing: MinMax Scaler')
+            scaler.fit(self.data)
+            self.data = scaler.transform(self.data)
+
+            ## Persist Preprocessing Object as Artifacts
+            logging.info('Saving Preprocessing Objects: ' + os.getcwd() + '/preprocessing.pickle')
+            artifacts = { 'encoder' : encoder, 'scaler': scaler }
+            pickle.dump(artifacts, open(os.getcwd() + '/preprocessing.pickle', 'wb'))
+            self.logger.log_artifact(os.getcwd() + '/preprocessing.pickle')
+
+        elif self.config.agent.predict.enable:
+            logging.info('Prediction Mode - Loading existing preprocesing routine objects')
+
+            ## Load Preprocessing Object as Artifacts
+            artifact_dir = self.logger.out_dir + '/' + self.logger.experiment_id + '/' + self.config.agent.predict.run_id + '/artifacts/'
+            logging.info('Loading Preprocessing Artifact: ' + artifact_dir + '/' + 'preprocessing.pickle')
+            artifacts = pickle.load(open(artifact_dir + '/' + 'preprocessing.pickle', 'rb'))
+
+            ## Initialize Transformation Objects
+            encoder = artifacts['encoder']
+            scaler = artifacts['scaler']
+            
+            ## Perform Encoder Transform Routines
+            logging.info('Preprocessing: One-Hot Encoding')
+            self.data = encoder.transform(self.data)
+            self.encoder_name = list(self.data.columns)
+            
+            logging.info('Preprocessing: MinMax Scaler')
+            self.data = scaler.transform(self.data)
+
+    def get_feature_size(self):
+        return self.data.shape[1]
+    
+    def get_data(self):
+        return self.data
