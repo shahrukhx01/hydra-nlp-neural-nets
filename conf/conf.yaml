@@ -1,9 +1,9 @@
 db:
     database: DHWW
-    hostname: sbybz220098.sby.dst.ibm.com
+    hostname: <servername>
     port: 50000
-    user: dhww
-    pwd: Dhww@1234
+    user: <username>
+    pwd: <passwd>
 
 remote:
     hostname: nfactor-gpu.sl.cloud9.ibm.com
